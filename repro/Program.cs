@@ -17,17 +17,15 @@ namespace repro
 
             var client = CreateClient(writeKey);
 
-            var runId = Guid.NewGuid().ToString();
-
-            Console.WriteLine($"Running with run id {runId}");
-
             var eventTime = DateTime.UtcNow;
             const int numberOfEvents = 12000;
+
+            Console.WriteLine($"Starting to send {numberOfEvents} events with {client.GetType().Assembly.FullName}");
 
             for (int i = 0; i < numberOfEvents; i++)
             {
                 ReleaseStatsUpdated(client: client,
-                    runId: runId,
+                    runId: "3.4.1-alpha-take2",
                     userId: Guid.NewGuid().ToString(),
                     eventTime: eventTime,
                     totalReleasesAlbumSold: i,
@@ -98,8 +96,7 @@ namespace repro
             client.Identify(userId, userProperties, options);
 
             var eventProperties = new Dict();
-            eventProperties.Add("L - Event Category", "Release");
-            eventProperties.Add("L - Run id", runId);
+            eventProperties.Add("L - Event Category", runId);
             eventProperties.Add("L - Album Sold", albumSold);
             eventProperties.Add("L - Asset Sold", assetSold);
             eventProperties.Add("L - Asset Sold (Individually)", assetSoldIndividually);

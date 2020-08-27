@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Analytics" Version="3.4.2-beta" />
+    <PackageReference Include="Analytics" Version="3.4.1-alpha" />
   </ItemGroup>
 
 </Project>
