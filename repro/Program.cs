@@ -17,12 +17,17 @@ namespace repro
 
             var client = CreateClient(writeKey);
 
+            var runId = Guid.NewGuid().ToString();
+
+            Console.WriteLine($"Running with run id {runId}");
+
             var eventTime = DateTime.UtcNow;
-            const int numberOfEvents = 5000;
+            const int numberOfEvents = 12000;
 
             for (int i = 0; i < numberOfEvents; i++)
             {
                 ReleaseStatsUpdated(client: client,
+                    runId: runId,
                     userId: Guid.NewGuid().ToString(),
                     eventTime: eventTime,
                     totalReleasesAlbumSold: i,
@@ -52,6 +57,7 @@ namespace repro
 
         private static void ReleaseStatsUpdated(
             Client client,
+            string runId,
             string userId,
             DateTime eventTime,
             // User properties
@@ -93,6 +99,7 @@ namespace repro
 
             var eventProperties = new Dict();
             eventProperties.Add("L - Event Category", "Release");
+            eventProperties.Add("L - Run id", runId);
             eventProperties.Add("L - Album Sold", albumSold);
             eventProperties.Add("L - Asset Sold", assetSold);
             eventProperties.Add("L - Asset Sold (Individually)", assetSoldIndividually);
